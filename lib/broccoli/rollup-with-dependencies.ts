@@ -6,7 +6,7 @@ import {babel} from '@rollup/plugin-babel';
 import GlimmerInlinePrecompile = require('babel-plugin-glimmer-inline-precompile');
 // import BabelPresetEnv from '@babel/preset-env';
 
-import ExternalHelpersPlugin = require('babel-plugin-external-helpers');
+// import ExternalHelpersPlugin = require('babel-plugin-external-helpers');
 import { RollupOptions, GlimmerAppOptions } from '../interfaces';
 import DebugMacros from 'babel-plugin-debug-macros';
 
@@ -80,7 +80,7 @@ class RollupWithDependencies extends Rollup {
       let userProvidedBabelPlugins = userProvidedBabelConfig.plugins || [];
 
       let babelPlugins = [
-        [ExternalHelpersPlugin],
+        '@babel/plugin-external-helpers',
         [GlimmerInlinePrecompile],
         [DebugMacros, {
           envFlags: {
