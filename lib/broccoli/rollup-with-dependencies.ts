@@ -98,7 +98,7 @@ class RollupWithDependencies extends Rollup {
 
       let presetEnvConfig = Object.assign({ loose: true }, userProvidedBabelConfig, {
         // ensure we do not carry forward `plugins`
-        plugins: undefined,
+        // plugins: undefined,
 
         // do not transpile modules
         modules: false,
@@ -112,7 +112,8 @@ class RollupWithDependencies extends Rollup {
         ],
         plugins: babelPlugins,
         sourceMaps: sourceMapsEnabled && 'inline',
-        retainLines: false
+        retainLines: false,
+        babelHelpers: 'external'
       }));
     }
 
