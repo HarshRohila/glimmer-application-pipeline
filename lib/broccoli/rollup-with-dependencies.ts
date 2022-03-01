@@ -1,10 +1,10 @@
 import fs = require('fs');
 
-import nodeResolve = require('rollup-plugin-node-resolve');
-import babel = require('rollup-plugin-babel');
+import nodeResolve from '@rollup/plugin-node-resolve';
+import {babel} from '@rollup/plugin-babel';
 
 import GlimmerInlinePrecompile = require('babel-plugin-glimmer-inline-precompile');
-import BabelPresetEnv from 'babel-preset-env';
+// import BabelPresetEnv from '@babel/preset-env';
 
 import ExternalHelpersPlugin = require('babel-plugin-external-helpers');
 import { RollupOptions, GlimmerAppOptions } from '../interfaces';
@@ -23,12 +23,12 @@ interface RollupError {
   message: string;
 }
 
-interface PackageJSON {
-  name: string;
-  main: string;
-  module: string;
-  'jsnext:main': string;
-}
+// interface PackageJSON {
+//   name: string;
+//   main: string;
+//   module: string;
+//   'jsnext:main': string;
+// }
 
 function hasPlugin(plugins: RollupPlugin[], name: string): boolean {
   return plugins.some(plugin => plugin.name === name);
@@ -108,7 +108,7 @@ class RollupWithDependencies extends Rollup {
 
       plugins.push(babel({
         presets: [
-          [BabelPresetEnv, presetEnvConfig]
+          ["@babel/preset-env", presetEnvConfig]
         ],
         plugins: babelPlugins,
         sourceMaps: sourceMapsEnabled && 'inline',
@@ -118,8 +118,8 @@ class RollupWithDependencies extends Rollup {
 
     if (!hasPlugin(plugins, 'resolve')) {
       plugins.push(nodeResolve({
-        jsnext: true,
-        module: true,
+        // jsnext: true,
+        // module: true,
         modulesOnly: true,
 
         // this is a temporary work around to force all @glimmer/*
@@ -129,19 +129,19 @@ class RollupWithDependencies extends Rollup {
         // this should be removed once the various glimmerjs/glimmer-vm
         // packages have been updated to use the "Correct" module entry
         // point
-        customResolveOptions: {
-          packageFilter(pkg: PackageJSON, file: string) {
-            if (pkg.name.startsWith('@glimmer/')) {
-              pkg.main = 'dist/modules/es2017/index.js';
-            } else if (pkg.module) {
-              pkg.main = pkg.module;
-            } else if (pkg['jsnext:main']) {
-              pkg.main = pkg['jsnext:main'];
-            }
+        // customResolveOptions: {
+        //   packageFilter(pkg: PackageJSON, file: string) {
+        //     if (pkg.name.startsWith('@glimmer/')) {
+        //       pkg.main = 'dist/modules/es2017/index.js';
+        //     } else if (pkg.module) {
+        //       pkg.main = pkg.module;
+        //     } else if (pkg['jsnext:main']) {
+        //       pkg.main = pkg['jsnext:main'];
+        //     }
 
-            return pkg;
-          }
-        }
+        //     return pkg;
+        //   }
+        // }
       }));
     }
 
