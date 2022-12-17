@@ -12,6 +12,7 @@
     "outDir": "dist",
     "strict": true,
     "types": ["mocha","node"],
+    "skipLibCheck": true,
     "lib": [
       "dom",
       "es2015"
